@@ -22,20 +22,18 @@ class HuffNode:
             return True
 
 
-
-def get_letter_frequency(input_string):
-    freq_counts = {}
+def get_char_frequencies(input_string):
+    char_frequencies = {}
     for char in input_string:
-        if char in freq_counts:
-            freq_counts[char] += 1
+        if char in char_frequencies:
+            char_frequencies[char] += 1
         else:
-            freq_counts[char] = 1
+            char_frequencies[char] = 1
 
-    return freq_counts
+    return char_frequencies
 
 
 def huffman_char_encodings(path, node, encodings):
-    # Is this still necessary
     if node.char is not None:
         if path == "":
             return encodings
@@ -54,12 +52,12 @@ def huffman_char_encodings(path, node, encodings):
 def huffman_encoding(data):
     heap = []
 
-    frequencies = get_letter_frequency(data)
+    char_frequencies = get_char_frequencies(data)
 
-    for key in frequencies:
+    for key in char_frequencies:
         node = HuffNode()
         node.char = key
-        frequency = frequencies[key]
+        frequency = char_frequencies[key]
         node.frequency = frequency
         heapq.heappush(heap, node)
 
@@ -76,30 +74,30 @@ def huffman_encoding(data):
 
     # deal with special case of empty string
     if len(heap) == 0:
-        fake_node = HuffNode()
+        empty_root = HuffNode()
         empty_node = HuffNode()
         empty_node.char = ""
         empty_node.freq = 1
-        fake_node.right = empty_node
+        empty_root.right = empty_node
 
-        return ["1", fake_node]
+        return ["1", empty_root]
 
     # deal with special case of string with 1 char
     elif len(heap) == 1:
-        fake_node = HuffNode()
-        fake_node.right = heap[0]
-        t = fake_node
+        single_root = HuffNode()
+        single_root.right = heap[0]
+        huffman_tree = single_root
 
     else:
-        t = heap[0]
+        huffman_tree = heap[0]
 
-    encodings = huffman_char_encodings("", t, {})
+    encodings = huffman_char_encodings("", huffman_tree, {})
 
     output = ""
     for char in data:
         output += encodings[char]
 
-    return [output, t]
+    return [output, huffman_tree]
 
 
 def huffman_decoding(data, tree):
