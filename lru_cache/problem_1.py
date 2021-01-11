@@ -22,8 +22,15 @@ class DoubleLinkedNode:
         self.prev = None
 
 
+class CapacityError(Exception):
+    pass
+
+
 class DoubleLinkedList:
     def __init__(self, capacity):
+        if capacity is None or not isinstance(capacity, int) or capacity < 1:
+            raise CapacityError("invalid capacity")
+
         self.capacity = capacity
         self.head = None
         self.tail = None
@@ -77,6 +84,8 @@ class DoubleLinkedList:
 
 class LruCache:
     def __init__(self, capacity):
+        if capacity is None or not isinstance(capacity, int) or capacity < 1:
+            raise CapacityError("invalid capacity")
         self.capacity = capacity
         self.cache_map = {}
         self.cache_list = DoubleLinkedList(capacity)
@@ -108,13 +117,25 @@ our_cache.set(2, 2);
 our_cache.set(3, 3);
 our_cache.set(4, 4);
 
-
-print(our_cache.get(1))       # returns 1
-print(our_cache.get(2))       # returns 2
-print(our_cache.get(9))       # returns -1 because 9 is not present in the cache
+print(our_cache.get(1))  # returns 1
+print(our_cache.get(2))  # returns 2
+print(our_cache.get(9))  # returns -1 because 9 is not present in the cache
 
 our_cache.set(5, 5)
 our_cache.set(6, 6)
 
-print(our_cache.get(3))       #returns -1 because it should have fallen out
+print(our_cache.get(3))  # returns -1 because it should have fallen out
 
+try:
+    empty_cache = LruCache(0)
+except CapacityError as err:
+    print(err)  # invalid capacity
+
+try:
+    bad_capacity = LruCache("3")
+except  CapacityError as err:
+    print(err)  # invalid capacity
+
+empty_cache = LruCache(10)
+
+print(empty_cache.get(3))  # returns -1
