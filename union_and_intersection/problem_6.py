@@ -22,10 +22,13 @@ class LinkedListInterator:
 
 
 class LinkedList:
-    def __init__(self):
+    def __init__(self, list = []):
         self.head = None
         self.tail = None
         self.size = 0
+
+        for item in list:
+            self.append(item)
 
     def __str__(self):
         cur_head = self.head
@@ -88,34 +91,34 @@ def intersection(llist_1, llist_2):
 
 # Test case 1
 
-linked_list_1 = LinkedList()
-linked_list_2 = LinkedList()
+linked_list_1 = LinkedList([3, 2, 4, 35, 6, 65, 6, 4, 3, 21])
+linked_list_2 = LinkedList([6, 32, 4, 9, 6, 1, 11, 21, 1])
 
-element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 21]
-element_2 = [6, 32, 4, 9, 6, 1, 11, 21, 1]
-
-for i in element_1:
-    linked_list_1.append(i)
-
-for i in element_2:
-    linked_list_2.append(i)
-
-print(union(linked_list_1, linked_list_2))
-print(intersection(linked_list_1, linked_list_2))
+print(union(linked_list_1, linked_list_2)) # returns [3, 2, 4, 35, 6, 65, 21, 32, 9, 1, 11]
+print(intersection(linked_list_1, linked_list_2)) # returns [6, 4, 21]
 
 # Test case 2
 
-linked_list_3 = LinkedList()
-linked_list_4 = LinkedList()
+linked_list_3 = LinkedList([3, 2, 4, 35, 6, 65, 6, 4, 3, 23])
+linked_list_4 = LinkedList([1, 7, 8, 9, 11, 21, 1])
 
-element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 23]
-element_2 = [1, 7, 8, 9, 11, 21, 1]
+print(union(linked_list_3, linked_list_4)) # returns [3, 2, 4, 35, 6, 65, 23, 1, 7, 8, 9, 11, 21]
+print(intersection(linked_list_3, linked_list_4)) # returns []
 
-for i in element_1:
-    linked_list_3.append(i)
+linked_list_5 = LinkedList([])
+linked_list_6 = LinkedList([])
 
-for i in element_2:
-    linked_list_4.append(i)
+print(union(linked_list_5, linked_list_6)) # returns []
+print(intersection(linked_list_5, linked_list_6)) # returns []
 
-print(union(linked_list_3, linked_list_4))
-print(intersection(linked_list_3, linked_list_4))
+linked_list_7 = LinkedList([1,1,1,1,1,1,1,1,1,1])
+linked_list_8 = LinkedList([2,2,2,2,2,2,2,2,2,2,2,2,2,2])
+
+print(union(linked_list_7, linked_list_8)) # returns [1, 2]
+print(intersection(linked_list_7, linked_list_8)) # returns []
+
+linked_list_9 = LinkedList([0,1,2,3,4,5,6,7,8,9])
+linked_list_10 = LinkedList([0,1,2,3,4,5,6,7,8,9])
+
+print(union(linked_list_9, linked_list_10)) # returns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+print(intersection(linked_list_9, linked_list_10)) # returns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
