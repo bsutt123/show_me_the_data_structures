@@ -12,7 +12,7 @@ class Block:
 
     def calc_hash(self):
         sha = hashlib.sha256()
-        hash_str = self.data.encode('utf-8')
+        hash_str = (self.data + str(self.timestamp)).encode('utf-8')
         sha.update(hash_str)
         return sha.hexdigest()
 
@@ -24,7 +24,7 @@ class BlockChain:
 
     def append(self, data):
         if self.root is None:
-            block = Block(datetime.datetime.now(), data, None)
+            block = Block(datetime.datetime.now().timestamp(), data, None)
             self.root = block
             self.tail = block
             return
